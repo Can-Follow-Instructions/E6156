@@ -37,10 +37,9 @@ export class UsersService {
     await this.usersRepository.delete(id);
   }
 
-  getAddress(id: number): Promise<Address[]> {
-    const user = this.findOne(id);
-    const address = this.addressRepository.find({ relations: ['user'] });
-    return address;
+  async getAddress(id: number): Promise<Address> {
+    const user = await this.findOne(id);
+    return user.address;
   }
 
   updateAddress(id: number, address: Address) {

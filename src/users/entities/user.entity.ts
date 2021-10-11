@@ -15,6 +15,6 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @ManyToOne(() => Address, (address) => address.users)
+  @ManyToOne(() => Address, (address) => address.users, { eager: true })
   address: Address;
 }
