@@ -10,6 +10,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Address } from '../addresses/entities/address.entity';
 
 @Controller('users')
 export class UsersController {
@@ -38,5 +39,15 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
+  }
+
+  @Patch(':id/address')
+  updateAddress(@Param('id') id: string, @Body() address: Address) {
+    return this.usersService.updateAddress(+id, address);
+  }
+
+  @Get(':id/address')
+  getAddress(@Param('id') id: string) {
+    return this.usersService.getAddress(+id);
   }
 }

@@ -4,12 +4,15 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { Address } from '../addresses/entities/address.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(Address)
+    private addressRepository: Repository<Address>,
   ) {}
 
   create(createUserDto: CreateUserDto): Promise<User> {
@@ -32,5 +35,15 @@ export class UsersService {
 
   async remove(id: number): Promise<void> {
     await this.usersRepository.delete(id);
+  }
+
+  getAddress(id: number): Promise<Address[]> {
+    const user = this.findOne(id);
+    const address = this.addressRepository.find({ relations: ['user'] });
+    return address;
+  }
+
+  updateAddress(id: number, address: Address) {
+    return this.usersRepository.update(id, { address: address });
   }
 }
