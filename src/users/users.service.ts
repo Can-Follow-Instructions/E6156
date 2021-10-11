@@ -5,6 +5,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { Address } from '../addresses/entities/address.entity';
+import {
+  IPaginationOptions,
+  Pagination,
+  paginate,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class UsersService {
@@ -44,5 +49,9 @@ export class UsersService {
 
   updateAddress(id: number, address: Address) {
     return this.usersRepository.update(id, { address: address });
+  }
+
+  async paginate(options: IPaginationOptions): Promise<Pagination<User>> {
+    return paginate<User>(this.usersRepository, options);
   }
 }
