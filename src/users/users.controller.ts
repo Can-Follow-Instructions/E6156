@@ -7,12 +7,14 @@ import {
   Patch,
   Post,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Address } from '../addresses/entities/address.entity';
 import { PaginatorDto } from './dto/paginator.dto';
+import { NotFoundInterceptor } from '../404.interceptor';
 
 @Controller('users')
 export class UsersController {
@@ -29,6 +31,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @UseInterceptors(NotFoundInterceptor)
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }

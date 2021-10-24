@@ -7,8 +7,8 @@ import { Repository } from 'typeorm';
 import { Address } from '../addresses/entities/address.entity';
 import {
   IPaginationOptions,
-  Pagination,
   paginate,
+  Pagination,
 } from 'nestjs-typeorm-paginate';
 
 @Injectable()
