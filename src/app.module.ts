@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { AddressesModule } from './addresses/addresses.module';
 import { User } from './users/entities/user.entity';
 import { Address } from './addresses/entities/address.entity';
+import { GoogleStrategy } from './google.strategy';
 
 @Module({
   imports: [
@@ -25,6 +26,6 @@ import { Address } from './addresses/entities/address.entity';
     AddressesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, GoogleStrategy],
 })
 export class AppModule {}
