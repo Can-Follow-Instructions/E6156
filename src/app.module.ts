@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -8,6 +13,7 @@ import { AddressesModule } from './addresses/addresses.module';
 import { User } from './users/entities/user.entity';
 import { Address } from './addresses/entities/address.entity';
 import { GoogleStrategy } from './google.strategy';
+import { SecurityMiddleware } from './security.middleware';
 
 @Module({
   imports: [
@@ -28,4 +34,13 @@ import { GoogleStrategy } from './google.strategy';
   controllers: [AppController],
   providers: [AppService, GoogleStrategy],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(SecurityMiddleware)
+      .forRoutes(
+        { path: 'users/*', method: RequestMethod.PATCH },
+        { path: 'users/*', method: RequestMethod.DELETE },
+      );
+  }
+}
