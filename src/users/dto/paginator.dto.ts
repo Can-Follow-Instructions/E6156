@@ -6,4 +6,7 @@ export class PaginatorDto {
 
   @ApiProperty({ default: 10, required: false })
   limit: number;
+
+  @ApiProperty({ default: ['id', 'firstName', 'lastName', 'email'], required: false })
+  fields: string[];
 }

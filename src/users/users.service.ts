@@ -10,6 +10,7 @@ import {
   paginate,
   Pagination,
 } from 'nestjs-typeorm-paginate';
+import { PaginatorDto } from './dto/paginator.dto';
 
 @Injectable()
 export class UsersService {
@@ -24,10 +25,6 @@ export class UsersService {
     return this.usersRepository.save(
       this.usersRepository.create(createUserDto),
     );
-  }
-
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
   }
 
   findOne(id: number): Promise<User> {
@@ -51,7 +48,8 @@ export class UsersService {
     return this.usersRepository.update(id, { address: address });
   }
 
-  async paginate(options: IPaginationOptions): Promise<Pagination<User>> {
-    return paginate<User>(this.usersRepository, options);
+  async findAll(options: PaginatorDto): Promise<Pagination<Partial<User>>> {
+    if (typeof options.fields === 'string') options.fields = [options.fields];
+    return paginate<Partial<User>>(this.usersRepository.createQueryBuilder().select((options.fields || ['id', 'firstName', 'lastName', 'email']).map(s => "User." + s)), options);
   }
 }

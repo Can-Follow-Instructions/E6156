@@ -27,6 +27,7 @@ import { SecurityMiddleware } from './security.middleware';
       database: process.env.DATABASE_NAME || 'test',
       entities: [Address, User],
       synchronize: true, // only for dev
+      logging: true,
     }),
     UsersModule,
     AddressesModule,

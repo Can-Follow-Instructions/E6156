@@ -28,7 +28,7 @@ export class UsersController {
 
   @Get()
   findAll(@Query() paginatorDto: PaginatorDto) {
-    return this.usersService.paginate(paginatorDto);
+    return this.usersService.findAll(paginatorDto);
   }
 
   @Get(':id')
