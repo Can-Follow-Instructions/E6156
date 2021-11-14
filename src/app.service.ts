@@ -10,10 +10,7 @@ export class AppService {
     if (!req.user) {
       return 'No user from google';
     }
-
-    return {
-      message: 'User information from google',
-      user: req.user,
-    };
+    req.session.user = req.user;
+    return req.user;
   }
 }
