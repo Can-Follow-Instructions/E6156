@@ -5,11 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { Address } from '../addresses/entities/address.entity';
-import {
-  IPaginationOptions,
-  paginate,
-  Pagination,
-} from 'nestjs-typeorm-paginate';
+import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { PaginatorDto } from './dto/paginator.dto';
 
 @Injectable()
@@ -22,9 +18,7 @@ export class UsersService {
   ) {}
 
   create(createUserDto: CreateUserDto): Promise<User> {
-    return this.usersRepository.save(
-      this.usersRepository.create(createUserDto),
-    );
+    return this.usersRepository.save(this.usersRepository.create(createUserDto));
   }
 
   findOne(id: number): Promise<User> {
@@ -50,6 +44,11 @@ export class UsersService {
 
   async findAll(options: PaginatorDto): Promise<Pagination<Partial<User>>> {
     if (typeof options.fields === 'string') options.fields = [options.fields];
-    return paginate<Partial<User>>(this.usersRepository.createQueryBuilder().select((options.fields || ['id', 'firstName', 'lastName', 'email']).map(s => "User." + s)), options);
+    return paginate<Partial<User>>(
+      this.usersRepository
+        .createQueryBuilder()
+        .select((options.fields || ['id', 'firstName', 'lastName', 'email']).map((s) => 'User.' + s)),
+      options,
+    );
   }
 }
