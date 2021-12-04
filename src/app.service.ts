@@ -24,6 +24,5 @@ export class AppService {
     }
 
     req.session.user = user;
-    return user;
   }
 }
