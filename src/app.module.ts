@@ -32,8 +32,6 @@ import { SecurityMiddleware } from './security.middleware';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(SecurityMiddleware)
-      .forRoutes({ path: 'users/*', method: RequestMethod.PATCH }, { path: 'users/*', method: RequestMethod.DELETE });
+    consumer.apply(SecurityMiddleware).exclude('google/redirect').forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }

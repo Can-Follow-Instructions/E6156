@@ -1,4 +1,4 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import { HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import axios from 'axios';
 
@@ -6,6 +6,7 @@ import axios from 'axios';
 export class SecurityMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
     // @ts-ignore
+    console.log('middleware', req.session.user);
     const ip_addr = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     if (req.session.ip && req.session.ip !== ip_addr) {
       const r1 = await axios.get('http://ip-api.com/json/' + req.session.ip);
@@ -14,10 +15,11 @@ export class SecurityMiddleware implements NestMiddleware {
         req.session.user = null;
       }
     }
+
     if (req.session.user) {
       next();
       return;
     }
-    res.redirect('google/redirect');
+    res.status(HttpStatus.UNAUTHORIZED).send('Unauthorized');
   }
 }
