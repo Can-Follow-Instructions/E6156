@@ -11,6 +11,9 @@ async function bootstrap() {
       secret: 'my-secret',
       resave: false,
       saveUninitialized: false,
+      cookie: {
+        sameSite: 'lax',
+      },
     }),
   );
 
@@ -18,7 +21,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  app.enableCors();
+  app.enableCors({ credentials: true, origin: 'http://f.1oop.ml:3001' });
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
