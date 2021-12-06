@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Post, Redirect, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Query, Post, Redirect, Req, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthGuard } from '@nestjs/passport';
-import { createPostAPI, getPostsAPI } from './apis/post';
+import { createPostAPI, getPostsAPI, getPostsByUserId } from './apis/post';
 import { createDiscussionAPI, getDiscussionAPI, getDiscussionForPostAPI } from './apis/discussion';
 
 @Controller()
@@ -26,7 +26,10 @@ export class AppController {
   }
 
   @Get('posts')
-  async getPosts() {
+  async getPosts(@Query('userId') userId: string) {
+    if (userId) {
+      return getPostsByUserId(userId);
+    }
     return getPostsAPI();
   }
 
