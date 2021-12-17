@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DISCUSSION_URL = 'http://localhost:3002/discussions/'; // TODO hardcode
+const DISCUSSION_URL = process.env.DISCUSSION_URL;
 
 export const getDiscussionAPI = async () => {
   const resp = await axios.get(DISCUSSION_URL);

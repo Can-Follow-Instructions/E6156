@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const POST_URL = 'http://localhost:3001/posts/'; // TODO hardcode
+const POST_URL = process.env.POST_URL;
 
 export const createPostAPI = async (data) => {
   const resp = await axios.post(POST_URL, data);
