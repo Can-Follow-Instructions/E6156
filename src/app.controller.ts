@@ -10,7 +10,7 @@ export class AppController {
 
   @Get('google/redirect')
   @UseGuards(AuthGuard('google'))
-  @Redirect('http://f.1oop.ml:3001/') // TODO hardcode
+  @Redirect(process.env.REDIRECT_URL)
   googleAuthRedirect(@Req() req) {
     return this.appService.googleLogin(req);
   }
