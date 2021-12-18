@@ -10,7 +10,7 @@ export class AppController {
 
   @Get('google/redirect')
   @UseGuards(AuthGuard('google'))
-  @Redirect(process.env.REDIRECT_URL)
+  @Redirect('http://d2u2lezi9jfyf1.cloudfront.net')
   googleAuthRedirect(@Req() req) {
     return this.appService.googleLogin(req);
   }
